@@ -7,10 +7,9 @@ class Position
 public:
     Position(int _a, int _b);
     bool operator==(const Position& B);
-    int x();
-    int y();
+    int x() const;
+    int y() const;
     Position reflection();
-   
     Position& operator+=(const Vector& B);
     static const Position& origin()
     {
@@ -23,6 +22,20 @@ private:
 };
 class Vector
 {
-    Vector();
+public:
+    Vector(int _a, int _b);
+    bool operator==(const Vector& B);
+    int x() const;
+    int y() const;
+    Vector reflection();
+    Vector& operator+=(const Vector& B);
+
+private:
+    int xVec, yVec;
 };
+class Rectangle
+{
+public:
+private:
+}
 #endif
