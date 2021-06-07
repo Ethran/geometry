@@ -1,12 +1,12 @@
 #include "geometry.h"
 
-Position::Position(int _a, int _b)
+Point::Point(int _a, int _b)
     : xPos(_a)
     , yPos(_b)
 {
 }
 
-bool Position::operator==(const Position& B)
+bool Point::operator==(const Point& B)
 {
     if(this->xPos == B.xPos && this->yPos == B.yPos) {
 	std::cout << " tak ";
@@ -16,20 +16,21 @@ bool Position::operator==(const Position& B)
     return false;
 }
 
-int Position::x() const
+const int& Point::x() const
 {
     return xPos;
 }
 
-int Position::y() const
+const int& Point::y() const
 {
     return yPos;
 }
 
-Position Position::reflection()
+Point Point::reflection()
 {
-    return Position(yPos, xPos);
+    return Point(yPos, xPos);
 }
+
 Position& Position::operator+=(const Vector& B)
 {
     this->xPos += B.x();
@@ -43,36 +44,6 @@ Position& Position::operator+=(const Vector& B)
 //    return objectOrigin;
 //}
 
-Vector::Vector(int _a, int _b)
-    : xVec(_a)
-    , yVec(_b)
-{
-}
-
-bool Vector::operator==(const Vector& B)
-{
-    if(this->xVec == B.xVec && this->yVec == B.yVec) {
-	std::cout << " tak ";
-	return true;
-    }
-    std::cout << " nie ";
-    return false;
-}
-
-int Vector::x() const
-{
-    return xVec;
-}
-
-int Vector::y() const
-{
-    return yVec;
-}
-
-Vector Vector::reflection()
-{
-    return Vector(yVec, xVec);
-}
 Vector& Vector::operator+=(const Vector& B)
 {
     this->xVec += B.x();

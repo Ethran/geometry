@@ -1,41 +1,68 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
 #include <bits/stdc++.h>
+class Point;
+class Position;
 class Vector;
-class Position
+class Rectangle;
+class Rectangles;
+
+class Point
 {
 public:
-    Position(int _a, int _b);
-    bool operator==(const Position& B);
-    int x() const;
-    int y() const;
-    Position reflection();
+    Point(int _a, int _b);
+    bool operator==(const Point& B);
+    const int& x() const;
+    const int& y() const;
+    Point reflection();
+
+protected:
+    int xPos, yPos;
+};
+
+class Position : public Point
+{
+public:
+    using Point::Point;
     Position& operator+=(const Vector& B);
     static const Position& origin()
     {
 	static const Position objectOrigin(0, 0);
 	return objectOrigin;
     }
-
-private:
-    int xPos, yPos;
 };
-class Vector
+
+class Vector : public Point
 {
 public:
-    Vector(int _a, int _b);
-    bool operator==(const Vector& B);
-    int x() const;
-    int y() const;
-    Vector reflection();
+    using Point::Point;
     Vector& operator+=(const Vector& B);
 
 private:
     int xVec, yVec;
 };
+
+
+
 class Rectangle
 {
 public:
+    Rectangle(int _width, int _height, Position _pos);
+    Rectangle(int _width, int _height);
+    bool operator==(const Rectangle& B);
+    Rectangle reflection();
+    Rectangle& operator+=(const Vector& B);
+    int area();
+
 private:
-}
+    unsigned int width;
+    unsigned int height;
+    Position pos;
+};
+
+class Rectangles
+{
+public:
+private:
+};
 #endif
