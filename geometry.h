@@ -45,6 +45,7 @@ public:
         : Point(_a, _b)
     {
     }
+    Vector() = delete;
     Vector reflection() const;
 
     Vector& operator+=(const Vector& B);
@@ -55,8 +56,9 @@ private:
 class Rectangle
 {
 public:
-    Rectangle(const int& _width, const int& _height, const Position& _pos);
-    Rectangle(const int& _width, const int& _height);
+    Rectangle(const unsigned int& _width, const unsigned int& _height, const Position& _pos);
+    Rectangle(const unsigned int& _width, const unsigned int& _height);
+    Rectangle() = delete;
     bool operator==(const Rectangle& B) const;
     bool operator!=(const Rectangle& B) const;
 

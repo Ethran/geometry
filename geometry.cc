@@ -46,17 +46,21 @@ Vector& Vector::operator+=(const Vector& B)
     return *this;
 }
 
-Rectangle::Rectangle(const int& _width, const int& _height, const Position& _pos)
+Rectangle::Rectangle(const unsigned int& _width, const unsigned int& _height, const Position& _pos)
     : widthRec(_width)
     , heightRec(_height)
     , posRec(_pos)
 {
+    assert(_width != 0);
+    assert(_height != 0);
 }
-Rectangle::Rectangle(const int& _width, const int& _height)
+Rectangle::Rectangle(const unsigned int& _width, const unsigned int& _height)
     : widthRec(_width)
     , heightRec(_height)
     , posRec(Position::origin())
 {
+    assert(_width != 0);
+    assert(_height != 0);
 }
 bool Rectangle::operator==(const Rectangle& B) const
 {
