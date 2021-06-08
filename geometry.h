@@ -82,6 +82,10 @@ public:
         : colection(_colection)
     {
     }
+    Rectangles()
+    {
+    }
+
     unsigned const int size() const;
     Rectangle& operator[](unsigned const int index);
     const Rectangle& operator[](unsigned const int index) const;
