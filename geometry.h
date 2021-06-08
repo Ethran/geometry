@@ -10,11 +10,11 @@ class Rectangles;
 class Point
 {
 public:
-    Point(int _a, int _b);
-    bool operator==(const Point& B);
+    Point(const int& _a, const int& _b);
+    Point() = delete;
+    bool operator==(const Point& B) const;
     const int& x() const;
     const int& y() const;
-    Point reflection();
 
 protected:
     int xPos, yPos;
@@ -23,8 +23,14 @@ protected:
 class Position : public Point
 {
 public:
-    using Point::Point;
+    Position(int _a, int _b)
+        : Point(_a, _b)
+    {
+    }
+    Position() = delete;
+    // bool& operator+=(const Position& B) const;
     Position& operator+=(const Vector& B);
+    Position reflection() const;
     static const Position& origin()
     {
 	static const Position objectOrigin(0, 0);
@@ -35,34 +41,62 @@ public:
 class Vector : public Point
 {
 public:
-    using Point::Point;
+    Vector(int _a, int _b)
+        : Point(_a, _b)
+    {
+    }
+    Vector reflection() const;
+
     Vector& operator+=(const Vector& B);
 
 private:
-    int xVec, yVec;
 };
-
-
 
 class Rectangle
 {
 public:
-    Rectangle(int _width, int _height, Position _pos);
-    Rectangle(int _width, int _height);
-    bool operator==(const Rectangle& B);
-    Rectangle reflection();
+    Rectangle(const int& _width, const int& _height, const Position& _pos);
+    Rectangle(const int& _width, const int& _height);
+    bool operator==(const Rectangle& B) const;
+    bool operator!=(const Rectangle& B) const;
+
+    const unsigned int& width() const;
+    const unsigned int& height() const;
+    const Position& pos() const;
+    Rectangle reflection() const;
     Rectangle& operator+=(const Vector& B);
-    int area();
+    int area() const;
 
 private:
-    unsigned int width;
-    unsigned int height;
-    Position pos;
+    unsigned int widthRec;
+    unsigned int heightRec;
+    Position posRec;
 };
 
 class Rectangles
 {
 public:
+    Rectangles(std::initializer_list<Rectangle> _colection)
+        : colection(_colection)
+    {
+    }
+    unsigned const int size() const;
+    Rectangle& operator[](unsigned const int index);
+    const Rectangle& operator[](unsigned const int index) const;
+
+    bool operator==(const Rectangles& B) const;
+    Rectangles& operator+=(const Vector& B);
+
 private:
+    std::vector<Rectangle> colection;
 };
+
+Rectangle merge_horizontally(const Rectangle& rect1, const Rectangle& rect2);
+bool check_horizontally(const Rectangle& rect1, const Rectangle& rect2);
+
+Rectangle merge_vertically(const Rectangle& rect1, const Rectangle& rect2);
+bool check_vertically(const Rectangle& rect1, const Rectangle& rect2);
+
+Rectangles merge_all(const Rectangles& A);
+
 #endif
