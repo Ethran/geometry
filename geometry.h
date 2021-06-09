@@ -60,6 +60,8 @@ public:
   }
 };
 
+
+
 class Vector : public Point
 {
 public:
@@ -85,6 +87,8 @@ public:
 
 private:
 };
+
+
 
 class Rectangle
 {
@@ -122,6 +126,8 @@ private:
   Position     posRec;
 };
 
+
+
 class Rectangles
 {
 public:
@@ -151,17 +157,31 @@ private:
   std::vector<Rectangle> colection;
 };
 
+
+
 Rectangle
 merge_horizontally(const Rectangle &rect1, const Rectangle &rect2);
+
+
+
 bool
 check_horizontally(const Rectangle &rect1, const Rectangle &rect2);
 
+
+
 Rectangle
 merge_vertically(const Rectangle &rect1, const Rectangle &rect2);
+
+
+
 bool
 check_vertically(const Rectangle &rect1, const Rectangle &rect2);
 
+
+
 Rectangles
 merge_all(const Rectangles &A);
+
+
 
 #endif

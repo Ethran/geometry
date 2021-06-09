@@ -100,7 +100,9 @@ Position::operator+(const Vector &B) const
   return result;
 }
 
-//Position::operator Vector() const
+
+
+// Position::operator Vector() const
 //{
 //  return Vector(x(), y());
 //}
@@ -176,7 +178,7 @@ Vector::operator+(const Rectangles &B) const
 
 
 
-//Vector::operator Position() const
+// Vector::operator Position() const
 //{
 //  return Position(x(), y());
 //}
