@@ -13,6 +13,10 @@ public:
     Point(const int& _a, const int& _b);
     Point() = delete;
     bool operator==(const Point& B) const;
+    Point& operator=(const Point& B);
+    Point& operator+=(const Point& B);
+    Point operator+(const Point& B) const;
+
     const int& x() const;
     const int& y() const;
 
@@ -29,7 +33,10 @@ public:
     }
     Position() = delete;
     // bool& operator+=(const Position& B) const;
+    Position& operator=(const Position& B);
     Position& operator+=(const Vector& B);
+    Position operator+(const Vector& B) const;
+
     Position reflection() const;
     static const Position& origin()
     {
@@ -47,8 +54,11 @@ public:
     }
     Vector() = delete;
     Vector reflection() const;
-
+    Vector& operator=(const Vector& B);
     Vector& operator+=(const Vector& B);
+    Vector operator+(const Vector& B) const;
+    Position operator+(const Position& B) const;
+    Rectangle operator+(const Rectangle& B) const;
 
 private:
 };
@@ -61,12 +71,15 @@ public:
     Rectangle() = delete;
     bool operator==(const Rectangle& B) const;
     bool operator!=(const Rectangle& B) const;
+    Rectangle& operator+=(const Vector& B);
+    Rectangle& operator=(const Rectangle& B);
+    Rectangle operator+(const Vector& B) const;
 
     const unsigned int& width() const;
     const unsigned int& height() const;
     const Position& pos() const;
     Rectangle reflection() const;
-    Rectangle& operator+=(const Vector& B);
+
     int area() const;
 
 private:

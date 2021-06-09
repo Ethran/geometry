@@ -1,5 +1,7 @@
 #include "geometry.h"
 
+///**Point **///
+
 Point::Point(const int& _a, const int& _b)
     : xPos(_a)
     , yPos(_b)
@@ -12,7 +14,29 @@ bool Point::operator==(const Point& B) const
 	return true;
     return false;
 }
+Point& Point::operator=(const Point& B)
+{
+    if(this != &B)
+	{
+	    this->xPos = B.x();
+	    this->yPos = B.y();
+	}
+    return *this;
+}
+Point& Point::operator+=(const Point& B)
+{
 
+    this->xPos += B.x();
+    this->yPos += B.y();
+
+    return *this;
+}
+Point Point::operator+(const Point& B) const
+{
+    Point result = *this;
+    result += B;
+    return result;
+}
 const int& Point::x() const
 {
     return xPos;
@@ -22,29 +46,69 @@ const int& Point::y() const
 {
     return yPos;
 }
+///** Position**///
 
 Position Position::reflection() const
 {
     return Position(yPos, xPos);
 }
-Position& Position::operator+=(const Vector& B)
+Position& Position::operator=(const Position& B)
 {
-    this->xPos += B.x();
-    this->yPos += B.y();
+    static_cast<Point&>(*this) = B;
     return *this;
 }
+Position& Position::operator+=(const Vector& B)
+{
+    static_cast<Point&>(*this) += B;
+    return *this;
+}
+Position Position::operator+(const Vector& B) const
+{
+    Position result = *this;
+    result += B;
+    return result;
+}
+
+///** Vector**///
 
 Vector Vector::reflection() const
 {
     return Vector(yPos, xPos);
 }
 
-Vector& Vector::operator+=(const Vector& B)
+Vector& Vector::operator=(const Vector& B)
 {
-    this->xPos += B.x();
-    this->yPos += B.y();
+    static_cast<Point&>(*this) = B;
     return *this;
 }
+Vector& Vector::operator+=(const Vector& B)
+{
+    static_cast<Point&>(*this) += B;
+    return *this;
+}
+
+Vector Vector::operator+(const Vector& B) const
+{
+    Vector result = *this;
+    result += B;
+    return result;
+}
+
+Position Vector::operator+(const Position& B) const
+{
+    Position result = B;
+    result += *this;
+    return result;
+}
+
+Rectangle Vector::operator+(const Rectangle& B) const
+{
+    Rectangle result = B;
+    result += *this;
+    return result;
+}
+
+///** Rectangle**///
 
 Rectangle::Rectangle(const unsigned int& _width, const unsigned int& _height, const Position& _pos)
     : widthRec(_width)
@@ -70,10 +134,32 @@ bool Rectangle::operator==(const Rectangle& B) const
 }
 bool Rectangle::operator!=(const Rectangle& B) const
 {
-    if(this->widthRec == B.widthRec && this->heightRec == B.heightRec && this->posRec == B.posRec)
+    if(*this == B)
 	return false;
     return true;
 }
+Rectangle& Rectangle::operator+=(const Vector& B)
+{
+    posRec += B;
+    return *this;
+}
+Rectangle& Rectangle::operator=(const Rectangle& B)
+{
+    if(this != &B)
+	{
+	    posRec = B.pos();
+	    widthRec = B.width();
+	    heightRec = B.height();
+	}
+    return *this;
+}
+Rectangle Rectangle::operator+(const Vector& B) const
+{
+    Rectangle result = *this;
+    result += B;
+    return result;
+}
+
 const unsigned int& Rectangle::width() const
 {
     return widthRec;
@@ -94,17 +180,11 @@ Rectangle Rectangle::reflection() const
     return Rectangle(heightRec, widthRec, posRec.reflection());
 }
 
-Rectangle& Rectangle::operator+=(const Vector& B)
-{
-    posRec += B;
-    return *this;
-}
-
 int Rectangle::area() const
 {
     return widthRec * heightRec;
 }
-
+///*** Rectangles  **///
 unsigned const int Rectangles::size() const
 {
     return colection.size();
@@ -124,20 +204,22 @@ bool Rectangles::operator==(const Rectangles& B) const
 {
     if(this->size() != B.size())
 	return false;
-    for(unsigned int i = 0; i < this->size(); ++i) {
-	if(colection[i] != B[i])
-	    return false;
-    }
+    for(unsigned int i = 0; i < this->size(); ++i)
+	{
+	    if(colection[i] != B[i])
+		return false;
+	}
     return true;
 }
 Rectangles& Rectangles::operator+=(const Vector& B)
 {
-    for(auto& it : colection) {
-	it += B;
-    }
+    for(auto& it : colection)
+	{
+	    it += B;
+	}
     return *this;
 }
-
+///*** functions  ***///
 Rectangle merge_horizontally(const Rectangle& rect1, const Rectangle& rect2)
 {
     if(!check_horizontally(rect1, rect2))
@@ -173,13 +255,14 @@ bool check_vertically(const Rectangle& rect1, const Rectangle& rect2)
 Rectangles merge_all(const Rectangles& A)
 {
     Rectangle merged = A[0];
-    for(unsigned int i = 1; i < A.size(); ++i) {
-	if(check_horizontally(merged, A[i]))
-	    merge_horizontally(merged, A[i]);
-	else if(check_vertically(merged, A[i]))
-	    merge_vertically(merged, A[i]);
-	else
-	    exit(EXIT_FAILURE);
-    }
+    for(unsigned int i = 1; i < A.size(); ++i)
+	{
+	    if(check_horizontally(merged, A[i]))
+		merge_horizontally(merged, A[i]);
+	    else if(check_vertically(merged, A[i]))
+		merge_vertically(merged, A[i]);
+	    else
+		exit(EXIT_FAILURE);
+	}
     return Rectangles({ merged });
 }
