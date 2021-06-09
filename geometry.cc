@@ -1,268 +1,440 @@
 #include "geometry.h"
 
 ///**Point **///
-
-Point::Point(const int& _a, const int& _b)
-    : xPos(_a)
-    , yPos(_b)
+Point::Point(const Point &_a)
 {
+  xPos = _a.x();
+  yPos = _a.y();
 }
 
-bool Point::operator==(const Point& B) const
-{
-    if(this->xPos == B.xPos && this->yPos == B.yPos)
-	return true;
-    return false;
-}
-Point& Point::operator=(const Point& B)
-{
-    if(this != &B)
-	{
-	    this->xPos = B.x();
-	    this->yPos = B.y();
-	}
-    return *this;
-}
-Point& Point::operator+=(const Point& B)
-{
 
-    this->xPos += B.x();
-    this->yPos += B.y();
+Point::Point(const int &_a, const int &_b)
+  : xPos(_a)
+  , yPos(_b)
+{}
 
-    return *this;
-}
-Point Point::operator+(const Point& B) const
+
+
+bool
+Point::operator==(const Point &B) const
 {
-    Point result = *this;
-    result += B;
-    return result;
-}
-const int& Point::x() const
-{
-    return xPos;
+  if (this->xPos == B.xPos && this->yPos == B.yPos)
+    return true;
+  return false;
 }
 
-const int& Point::y() const
+
+
+Point &
+Point::operator+=(const Point &B)
 {
-    return yPos;
+  this->xPos += B.x();
+  this->yPos += B.y();
+
+  return *this;
 }
+
+
+
+Point
+Point::operator+(const Point &B) const
+{
+  Point result = *this;
+  result += B;
+  return result;
+}
+
+
+
+const int &
+Point::x() const
+{
+  return xPos;
+}
+
+
+
+const int &
+Point::y() const
+{
+  return yPos;
+}
+
+
+
 ///** Position**///
+Position::Position(Vector _a)
+  : Point::Point(static_cast<Point &>(_a))
+{}
 
-Position Position::reflection() const
+
+
+Position
+Position::reflection() const
 {
-    return Position(yPos, xPos);
+  return Position(yPos, xPos);
 }
-Position& Position::operator=(const Position& B)
+
+
+
+Position &
+Position::operator=(const Position &B)
 {
-    static_cast<Point&>(*this) = B;
-    return *this;
+  static_cast<Point &>(*this) = B;
+  return *this;
 }
-Position& Position::operator+=(const Vector& B)
+Position &
+Position::operator+=(const Vector &B)
 {
-    static_cast<Point&>(*this) += B;
-    return *this;
+  static_cast<Point &>(*this) += B;
+  return *this;
 }
-Position Position::operator+(const Vector& B) const
+
+
+
+Position
+Position::operator+(const Vector &B) const
 {
-    Position result = *this;
-    result += B;
-    return result;
+  Position result = *this;
+  result += B;
+  return result;
 }
+
+//Position::operator Vector() const
+//{
+//  return Vector(x(), y());
+//}
+
 
 ///** Vector**///
 
-Vector Vector::reflection() const
+
+
+Vector
+Vector::reflection() const
 {
-    return Vector(yPos, xPos);
+  return Vector(yPos, xPos);
 }
 
-Vector& Vector::operator=(const Vector& B)
+
+
+Vector &
+Vector::operator=(const Vector &B)
 {
-    static_cast<Point&>(*this) = B;
-    return *this;
-}
-Vector& Vector::operator+=(const Vector& B)
-{
-    static_cast<Point&>(*this) += B;
-    return *this;
+  static_cast<Point &>(*this) = B;
+  return *this;
 }
 
-Vector Vector::operator+(const Vector& B) const
+
+
+Vector &
+Vector::operator+=(const Vector &B)
 {
-    Vector result = *this;
-    result += B;
-    return result;
+  static_cast<Point &>(*this) += B;
+  return *this;
 }
 
-Position Vector::operator+(const Position& B) const
+
+
+Vector
+Vector::operator+(const Vector &B) const
 {
-    Position result = B;
-    result += *this;
-    return result;
+  Vector result = *this;
+  result += B;
+  return result;
 }
 
-Rectangle Vector::operator+(const Rectangle& B) const
+
+
+Position
+Vector::operator+(const Position &B) const
 {
-    Rectangle result = B;
-    result += *this;
-    return result;
+  Position result = B;
+  result += *this;
+  return result;
 }
+
+
+
+Rectangle
+Vector::operator+(const Rectangle &B) const
+{
+  Rectangle result = B;
+  result += *this;
+  return result;
+}
+
+
+
+Rectangles
+Vector::operator+(const Rectangles &B) const
+{
+  Rectangles result = B;
+  result += *this;
+  return result;
+}
+
+
+
+//Vector::operator Position() const
+//{
+//  return Position(x(), y());
+//}
+
 
 ///** Rectangle**///
 
-Rectangle::Rectangle(const unsigned int& _width, const unsigned int& _height, const Position& _pos)
-    : widthRec(_width)
-    , heightRec(_height)
-    , posRec(_pos)
+
+
+Rectangle::Rectangle(const int &     _width,
+                     const int &     _height,
+                     const Position &_pos)
+  : widthRec(_width)
+  , heightRec(_height)
+  , posRec(_pos)
 {
-    assert(_width != 0);
-    assert(_height != 0);
+  assert(_width > 0);
+  assert(_height > 0);
 }
-Rectangle::Rectangle(const unsigned int& _width, const unsigned int& _height)
-    : widthRec(_width)
-    , heightRec(_height)
-    , posRec(Position::origin())
+
+
+
+bool
+Rectangle::operator==(const Rectangle &B) const
 {
-    assert(_width != 0);
-    assert(_height != 0);
+  if (this->widthRec == B.widthRec && this->heightRec == B.heightRec &&
+      this->posRec == B.posRec)
+    return true;
+  return false;
 }
-bool Rectangle::operator==(const Rectangle& B) const
+
+
+
+bool
+Rectangle::operator!=(const Rectangle &B) const
 {
-    if(this->widthRec == B.widthRec && this->heightRec == B.heightRec && this->posRec == B.posRec)
-	return true;
+  if (*this == B)
     return false;
-}
-bool Rectangle::operator!=(const Rectangle& B) const
-{
-    if(*this == B)
-	return false;
-    return true;
-}
-Rectangle& Rectangle::operator+=(const Vector& B)
-{
-    posRec += B;
-    return *this;
-}
-Rectangle& Rectangle::operator=(const Rectangle& B)
-{
-    if(this != &B)
-	{
-	    posRec = B.pos();
-	    widthRec = B.width();
-	    heightRec = B.height();
-	}
-    return *this;
-}
-Rectangle Rectangle::operator+(const Vector& B) const
-{
-    Rectangle result = *this;
-    result += B;
-    return result;
+  return true;
 }
 
-const unsigned int& Rectangle::width() const
+
+
+Rectangle &
+Rectangle::operator+=(const Vector &B)
 {
-    return widthRec;
+  posRec += B;
+  return *this;
 }
 
-const unsigned int& Rectangle::height() const
+
+
+Rectangle &
+Rectangle::operator=(const Rectangle &B)
 {
-    return heightRec;
+  if (this != &B)
+    {
+      posRec    = B.pos();
+      widthRec  = B.width();
+      heightRec = B.height();
+    }
+  return *this;
 }
 
-const Position& Rectangle::pos() const
+
+
+Rectangle
+Rectangle::operator+(const Vector &B) const
 {
-    return posRec;
+  Rectangle result = *this;
+  result += B;
+  return result;
 }
 
-Rectangle Rectangle::reflection() const
+
+
+const unsigned int &
+Rectangle::width() const
 {
-    return Rectangle(heightRec, widthRec, posRec.reflection());
+  return widthRec;
 }
 
-int Rectangle::area() const
+
+
+const unsigned int &
+Rectangle::height() const
 {
-    return widthRec * heightRec;
+  return heightRec;
 }
+
+
+
+const Position &
+Rectangle::pos() const
+{
+  return posRec;
+}
+
+
+
+Rectangle
+Rectangle::reflection() const
+{
+  return Rectangle(heightRec, widthRec, posRec.reflection());
+}
+
+
+
+int
+Rectangle::area() const
+{
+  return widthRec * heightRec;
+}
+
+
+
 ///*** Rectangles  **///
-unsigned const int Rectangles::size() const
+
+
+
+unsigned const int
+Rectangles::size() const
 {
-    return colection.size();
-}
-Rectangle& Rectangles::operator[](unsigned const int index)
-{
-    assert(index < size());
-    return colection[index];
-}
-const Rectangle& Rectangles::operator[](unsigned const int index) const
-{
-    assert(index < size());
-    return colection[index];
+  return colection.size();
 }
 
-bool Rectangles::operator==(const Rectangles& B) const
+
+
+Rectangle &
+Rectangles::operator[](unsigned const int index)
 {
-    if(this->size() != B.size())
-	return false;
-    for(unsigned int i = 0; i < this->size(); ++i)
-	{
-	    if(colection[i] != B[i])
-		return false;
-	}
-    return true;
+  assert(index < size());
+  return colection[index];
 }
-Rectangles& Rectangles::operator+=(const Vector& B)
+
+
+
+const Rectangle &
+Rectangles::operator[](unsigned const int index) const
 {
-    for(auto& it : colection)
-	{
-	    it += B;
-	}
-    return *this;
+  assert(index < size());
+  return colection[index];
 }
+
+
+
+bool
+Rectangles::operator==(const Rectangles &B) const
+{
+  if (this->size() != B.size())
+    return false;
+  for (unsigned int i = 0; i < this->size(); ++i)
+    {
+      if (colection[i] != B[i])
+        return false;
+    }
+  return true;
+}
+
+
+
+Rectangles &
+Rectangles::operator+=(const Vector &B)
+{
+  for (auto &it : colection)
+    {
+      it += B;
+    }
+  return *this;
+}
+
+
+Rectangles &
+Rectangles::operator=(const Rectangles &B)
+{
+  if (this != &B)
+    {
+      colection = B.colection;
+    }
+  return *this;
+}
+
+
+
+Rectangles
+Rectangles::operator+(const Vector &B) const
+{
+  Rectangles result = *this;
+  result += B;
+  return result;
+}
+
+
+
 ///*** functions  ***///
-Rectangle merge_horizontally(const Rectangle& rect1, const Rectangle& rect2)
+
+
+
+Rectangle
+merge_horizontally(const Rectangle &rect1, const Rectangle &rect2)
 {
-    if(!check_horizontally(rect1, rect2))
-	exit(EXIT_FAILURE);
-    return Rectangle(rect1.height() + rect2.height(), rect1.width(), rect1.pos());
+  if (!check_horizontally(rect1, rect2))
+    exit(EXIT_FAILURE);
+  return Rectangle(rect1.height() + rect2.height(), rect1.width(), rect1.pos());
 }
-bool check_horizontally(const Rectangle& rect1, const Rectangle& rect2)
+
+
+
+bool
+check_horizontally(const Rectangle &rect1, const Rectangle &rect2)
 {
-    if(static_cast<int>(rect1.height()) + rect1.pos().y() != rect2.pos().y())
-	return false;
-    if(rect1.width() == rect2.width())
-	return false;
-    if(rect1.pos().x() == rect2.pos().x())
-	return false;
-    return true;
+  if (static_cast<int>(rect1.height()) + rect1.pos().y() != rect2.pos().y())
+    return false;
+  if (rect1.width() == rect2.width())
+    return false;
+  if (rect1.pos().x() == rect2.pos().x())
+    return false;
+  return true;
 }
-Rectangle merge_vertically(const Rectangle& rect1, const Rectangle& rect2)
+
+
+
+Rectangle
+merge_vertically(const Rectangle &rect1, const Rectangle &rect2)
 {
-    if(!check_vertically(rect1, rect2))
-	exit(EXIT_FAILURE);
-    return Rectangle(rect1.height(), rect1.width() + rect2.width(), rect1.pos());
+  if (!check_vertically(rect1, rect2))
+    exit(EXIT_FAILURE);
+  return Rectangle(rect1.height(), rect1.width() + rect2.width(), rect1.pos());
 }
-bool check_vertically(const Rectangle& rect1, const Rectangle& rect2)
+
+
+
+bool
+check_vertically(const Rectangle &rect1, const Rectangle &rect2)
 {
-    if(static_cast<int>(rect1.width()) + rect1.pos().x() == rect2.pos().x())
-	return false;
-    if(rect1.height() == rect2.height())
-	return false;
-    if(rect1.pos().y() == rect2.pos().y())
-	return false;
-    return true;
+  if (static_cast<int>(rect1.width()) + rect1.pos().x() == rect2.pos().x())
+    return false;
+  if (rect1.height() == rect2.height())
+    return false;
+  if (rect1.pos().y() == rect2.pos().y())
+    return false;
+  return true;
 }
-Rectangles merge_all(const Rectangles& A)
+
+
+
+Rectangles
+merge_all(const Rectangles &A)
 {
-    Rectangle merged = A[0];
-    for(unsigned int i = 1; i < A.size(); ++i)
-	{
-	    if(check_horizontally(merged, A[i]))
-		merge_horizontally(merged, A[i]);
-	    else if(check_vertically(merged, A[i]))
-		merge_vertically(merged, A[i]);
-	    else
-		exit(EXIT_FAILURE);
-	}
-    return Rectangles({ merged });
+  Rectangle merged = A[0];
+  for (unsigned int i = 1; i < A.size(); ++i)
+    {
+      if (check_horizontally(merged, A[i]))
+        merge_horizontally(merged, A[i]);
+      else if (check_vertically(merged, A[i]))
+        merge_vertically(merged, A[i]);
+      else
+        exit(EXIT_FAILURE);
+    }
+  return Rectangles({merged});
 }
