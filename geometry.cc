@@ -1,11 +1,7 @@
 #include "geometry.h"
 
 ///**Point **///
-Point::Point(const Point &_a)
-{
-  xPos = _a.x();
-  yPos = _a.y();
-}
+
 
 
 Point::Point(const int &_a, const int &_b)
@@ -63,9 +59,6 @@ Point::y() const
 
 
 ///** Position**///
-Position::Position(Vector _a)
-  : Point::Point(static_cast<Point &>(_a))
-{}
 
 
 
@@ -102,10 +95,10 @@ Position::operator+(const Vector &B) const
 
 
 
-// Position::operator Vector() const
-//{
-//  return Vector(x(), y());
-//}
+Position::operator Vector() const
+{
+  return Vector(x(), y());
+}
 
 
 ///** Vector**///
@@ -178,10 +171,10 @@ Vector::operator+(const Rectangles &B) const
 
 
 
-// Vector::operator Position() const
-//{
-//  return Position(x(), y());
-//}
+Vector::operator Position() const
+{
+  return Position(x(), y());
+}
 
 
 ///** Rectangle**///
@@ -380,9 +373,8 @@ Rectangles::operator+(const Vector &B) const
 Rectangle
 merge_horizontally(const Rectangle &rect1, const Rectangle &rect2)
 {
-  if (!check_horizontally(rect1, rect2))
-    exit(EXIT_FAILURE);
-  return Rectangle(rect1.height() + rect2.height(), rect1.width(), rect1.pos());
+  assert(check_horizontally(rect1, rect2));
+  return Rectangle(rect1.width(), rect1.height() + rect2.height(), rect1.pos());
 }
 
 
@@ -392,9 +384,9 @@ check_horizontally(const Rectangle &rect1, const Rectangle &rect2)
 {
   if (static_cast<int>(rect1.height()) + rect1.pos().y() != rect2.pos().y())
     return false;
-  if (rect1.width() == rect2.width())
+  if (rect1.width() != rect2.width())
     return false;
-  if (rect1.pos().x() == rect2.pos().x())
+  if (rect1.pos().x() != rect2.pos().x())
     return false;
   return true;
 }
@@ -404,9 +396,9 @@ check_horizontally(const Rectangle &rect1, const Rectangle &rect2)
 Rectangle
 merge_vertically(const Rectangle &rect1, const Rectangle &rect2)
 {
-  if (!check_vertically(rect1, rect2))
-    exit(EXIT_FAILURE);
-  return Rectangle(rect1.height(), rect1.width() + rect2.width(), rect1.pos());
+  assert(check_vertically(rect1, rect2));
+
+  return Rectangle(rect1.width() + rect2.width(), rect1.height(), rect1.pos());
 }
 
 
@@ -414,29 +406,30 @@ merge_vertically(const Rectangle &rect1, const Rectangle &rect2)
 bool
 check_vertically(const Rectangle &rect1, const Rectangle &rect2)
 {
-  if (static_cast<int>(rect1.width()) + rect1.pos().x() == rect2.pos().x())
+  if (static_cast<int>(rect1.width()) + rect1.pos().x() != rect2.pos().x())
     return false;
-  if (rect1.height() == rect2.height())
+  if (rect1.height() != rect2.height())
     return false;
-  if (rect1.pos().y() == rect2.pos().y())
+  if (rect1.pos().y() != rect2.pos().y())
     return false;
   return true;
 }
 
 
 
-Rectangles
+Rectangle
 merge_all(const Rectangles &A)
 {
+  assert(A.size());
   Rectangle merged = A[0];
   for (unsigned int i = 1; i < A.size(); ++i)
     {
       if (check_horizontally(merged, A[i]))
-        merge_horizontally(merged, A[i]);
+        merged = merge_horizontally(merged, A[i]);
       else if (check_vertically(merged, A[i]))
-        merge_vertically(merged, A[i]);
+        merged = merge_vertically(merged, A[i]);
       else
-        exit(EXIT_FAILURE);
+        assert(false);
     }
-  return Rectangles({merged});
+  return merged;
 }

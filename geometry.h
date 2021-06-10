@@ -11,7 +11,6 @@ class Point
 {
 public:
   Point(const int &_a, const int &_b);
-  Point(const Point &_a);
   Point() = delete;
   bool
   operator==(const Point &B) const;
@@ -36,7 +35,6 @@ public:
   Position(int _a, int _b)
     : Point(_a, _b)
   {}
-  Position(Vector _a);
   Position() = delete;
   // bool& operator+=(const Position& B) const;
   Position &
@@ -47,7 +45,7 @@ public:
   operator+(const Vector &B) const;
 
 
-  // explicit operator Vector() const;
+  explicit operator Vector() const;
 
   Position
   reflection() const;
@@ -82,8 +80,8 @@ public:
   Rectangle
   operator+(const Rectangle &B) const;
   Rectangles
-  operator+(const Rectangles &B) const;
-  //  explicit operator Position() const;
+           operator+(const Rectangles &B) const;
+  explicit operator Position() const;
 
 private:
 };
@@ -149,6 +147,8 @@ public:
   Rectangles &
   operator=(const Rectangles &B);
   Rectangles &
+  operator=(Rectangles &&B);
+  Rectangles &
   operator+=(const Vector &B);
   Rectangles
   operator+(const Vector &B) const;
@@ -179,7 +179,7 @@ check_vertically(const Rectangle &rect1, const Rectangle &rect2);
 
 
 
-Rectangles
+Rectangle
 merge_all(const Rectangles &A);
 
 
