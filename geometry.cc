@@ -154,7 +154,7 @@ Vector::operator+(const Position &B) const
 Rectangle
 Vector::operator+(const Rectangle &B) const
 {
-  Rectangle result = B;
+  Rectangle result(B);
   result += *this;
   return result;
 }
@@ -343,7 +343,6 @@ Rectangles::operator+=(const Vector &B)
   return *this;
 }
 
-
 Rectangles &
 Rectangles::operator=(const Rectangles &B)
 {
@@ -354,7 +353,13 @@ Rectangles::operator=(const Rectangles &B)
   return *this;
 }
 
-
+Rectangles &
+Rectangles::operator=(Rectangles &&B)
+{
+  if (this != &B)
+    colection = move(B.colection);
+  return *this;
+}
 
 Rectangles
 Rectangles::operator+(const Vector &B) const
@@ -366,9 +371,30 @@ Rectangles::operator+(const Vector &B) const
 
 
 
-///*** functions  ***///
+///*** functions dopelniajace Rectangles ***///
 
 
+
+Rectangles
+operator+(const Rectangles &&a, const Vector &b)
+{
+  Rectangles result(std::move(a));
+  result += b;
+  return result;
+}
+
+
+Rectangles
+operator+(const Vector &b, const Rectangles &&a)
+{
+  Rectangles result = std::move(a);
+  result += b;
+  return result;
+}
+
+
+
+///***reszta functions ***///
 
 Rectangle
 merge_horizontally(const Rectangle &rect1, const Rectangle &rect2)
@@ -378,7 +404,7 @@ merge_horizontally(const Rectangle &rect1, const Rectangle &rect2)
 }
 
 
-
+// check if marge is posible
 bool
 check_horizontally(const Rectangle &rect1, const Rectangle &rect2)
 {
@@ -392,6 +418,7 @@ check_horizontally(const Rectangle &rect1, const Rectangle &rect2)
 }
 
 
+// check if marge is posible
 
 Rectangle
 merge_vertically(const Rectangle &rect1, const Rectangle &rect2)

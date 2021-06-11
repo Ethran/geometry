@@ -7,21 +7,28 @@ class Vector;
 class Rectangle;
 class Rectangles;
 
+
+// klasa bazowa dla position i vector
 class Point
 {
 public:
   Point(const int &_a, const int &_b);
+
   Point() = delete;
+
+
   bool
   operator==(const Point &B) const;
 
   Point &
   operator+=(const Point &B);
+
   Point
   operator+(const Point &B) const;
 
   const int &
   x() const;
+
   const int &
   y() const;
 
@@ -35,20 +42,26 @@ public:
   Position(int _a, int _b)
     : Point(_a, _b)
   {}
+
   Position() = delete;
-  // bool& operator+=(const Position& B) const;
+
+
+
   Position &
   operator=(const Position &B);
+
   Position &
   operator+=(const Vector &B);
+
   Position
   operator+(const Vector &B) const;
-
 
   explicit operator Vector() const;
 
   Position
   reflection() const;
+
+
 
   static const Position &
   origin()
@@ -66,21 +79,32 @@ public:
   Vector(int _a, int _b)
     : Point(_a, _b)
   {}
+
   Vector() = delete;
+
+
+
   Vector
   reflection() const;
+
   Vector &
   operator=(const Vector &B);
+
   Vector &
   operator+=(const Vector &B);
+
   Vector
   operator+(const Vector &B) const;
+
   Position
   operator+(const Position &B) const;
+
   Rectangle
   operator+(const Rectangle &B) const;
+
   Rectangles
-           operator+(const Rectangles &B) const;
+  operator+(const Rectangles &B) const;
+
   explicit operator Position() const;
 
 private:
@@ -94,24 +118,35 @@ public:
   Rectangle(const int &     _width,
             const int &     _height,
             const Position &_pos = Position::origin());
+
   Rectangle() = delete;
+
+
+
   bool
   operator==(const Rectangle &B) const;
+
   bool
   operator!=(const Rectangle &B) const;
+
   Rectangle &
   operator+=(const Vector &B);
+
   Rectangle &
   operator=(const Rectangle &B);
+
   Rectangle
   operator+(const Vector &B) const;
 
   const unsigned int &
   width() const;
+
   const unsigned int &
   height() const;
+
   const Position &
   pos() const;
+
   Rectangle
   reflection() const;
 
@@ -132,30 +167,52 @@ public:
   Rectangles(std::initializer_list<Rectangle> _colection)
     : colection(_colection)
   {}
+
   Rectangles()
+  {}
+
+  Rectangles(const Rectangles &B)
+    : colection(B.colection)
+  {}
+
+  Rectangles(const Rectangles &&B)
+    : colection(std::move(B.colection))
   {}
 
   unsigned const int
   size() const;
+
+
   Rectangle &
   operator[](unsigned const int index);
+
   const Rectangle &
   operator[](unsigned const int index) const;
 
   bool
   operator==(const Rectangles &B) const;
+
   Rectangles &
   operator=(const Rectangles &B);
+
   Rectangles &
   operator=(Rectangles &&B);
+
   Rectangles &
   operator+=(const Vector &B);
+
   Rectangles
   operator+(const Vector &B) const;
 
 private:
   std::vector<Rectangle> colection;
 };
+
+
+Rectangles
+operator+(const Rectangles &&a, const Vector &b);
+Rectangles
+operator+(const Vector &b, const Rectangles &&a);
 
 
 
