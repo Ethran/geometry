@@ -211,6 +211,7 @@ private:
 
 Rectangles
 operator+(const Rectangles &&a, const Vector &b);
+
 Rectangles
 operator+(const Vector &b, const Rectangles &&a);
 
