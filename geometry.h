@@ -1,6 +1,10 @@
 #ifndef GEOMETRY_H
 #define GEOMETRY_H
+
 #include <bits/stdc++.h>
+
+
+
 class Point;
 class Position;
 class Vector;
@@ -178,10 +182,15 @@ public:
 
   Rectangles(const Rectangles &&B)
     : colection(std::move(B.colection))
-  {}
+  {
+    std::cout << "konstruktor kopiujący\n\n";
+  }
+
+
 
   unsigned int
   size() const;
+
 
 
   Rectangle &

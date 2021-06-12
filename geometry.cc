@@ -291,7 +291,7 @@ Rectangle::area() const
 ///*** Rectangles  **///
 
 
- unsigned  int
+unsigned int
 Rectangles::size() const
 {
   return colection.size();
