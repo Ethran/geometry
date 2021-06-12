@@ -43,8 +43,8 @@ public:
     : Point(_a, _b)
   {}
 
-  Position() = delete;
-
+  Position()                 = delete;
+  Position(const Position &) = default;
 
 
   Position &
@@ -80,8 +80,8 @@ public:
     : Point(_a, _b)
   {}
 
-  Vector() = delete;
-
+  Vector()               = delete;
+  Vector(const Vector &) = default;
 
 
   Vector
@@ -119,7 +119,8 @@ public:
             const int &     _height,
             const Position &_pos = Position::origin());
 
-  Rectangle() = delete;
+  Rectangle()                  = delete;
+  Rectangle(const Rectangle &) = default;
 
 
 
@@ -179,7 +180,7 @@ public:
     : colection(std::move(B.colection))
   {}
 
-  unsigned const int
+  unsigned int
   size() const;
 
 
