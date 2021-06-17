@@ -30,10 +30,10 @@ public:
   Point
   operator+(const Point &B) const;
 
-  const int &
+  [[nodiscard]] const int &
   x() const;
 
-  const int &
+  [[nodiscard]] const int &
   y() const;
 
 protected:
@@ -43,9 +43,8 @@ protected:
 class Position : public Point
 {
 public:
-  Position(int _a, int _b)
-    : Point(_a, _b)
-  {}
+  Position(int _a, int _b);
+
 
   Position()                 = delete;
   Position(const Position &) = default;
@@ -67,7 +66,7 @@ public:
 
 
 
-  static const Position &
+  [[nodiscard]] static const Position &
   origin()
   {
     static const Position objectOrigin(0, 0);
@@ -80,15 +79,13 @@ public:
 class Vector : public Point
 {
 public:
-  Vector(int _a, int _b)
-    : Point(_a, _b)
-  {}
+  Vector(int _a, int _b);
 
   Vector()               = delete;
   Vector(const Vector &) = default;
 
 
-  Vector
+  [[nodiscard]] Vector
   reflection() const;
 
   Vector &
@@ -143,16 +140,16 @@ public:
   Rectangle
   operator+(const Vector &B) const;
 
-  const unsigned int &
+  [[nodiscard]] const unsigned int &
   width() const;
 
-  const unsigned int &
+  [[nodiscard]] const unsigned int &
   height() const;
 
-  const Position &
+  [[nodiscard]] const Position &
   pos() const;
 
-  Rectangle
+  [[nodiscard]] Rectangle
   reflection() const;
 
   int
@@ -169,26 +166,16 @@ private:
 class Rectangles
 {
 public:
-  Rectangles(std::initializer_list<Rectangle> _colection)
-    : colection(_colection)
-  {}
+  Rectangles(std::initializer_list<Rectangle> _colection);
 
-  Rectangles()
-  {}
+  Rectangles();
 
-  Rectangles(const Rectangles &B)
-    : colection(B.colection)
-  {}
+  Rectangles(const Rectangles &B) = default;
 
-  Rectangles(const Rectangles &&B)
-    : colection(std::move(B.colection))
-  {
-    std::cout << "konstruktor kopiujący\n\n";
-  }
+  Rectangles(Rectangles &&B) = default;
 
 
-
-  unsigned int
+  [[nodiscard]] unsigned int
   size() const;
 
 
@@ -206,7 +193,7 @@ public:
   operator=(const Rectangles &B);
 
   Rectangles &
-  operator=(Rectangles &&B);
+  operator=(Rectangles &&B) = default;
 
   Rectangles &
   operator+=(const Vector &B);

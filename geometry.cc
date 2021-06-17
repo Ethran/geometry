@@ -60,7 +60,9 @@ Point::y() const
 
 ///** Position**///
 
-
+Position::Position(int _a, int _b)
+  : Point(_a, _b)
+{}
 
 Position
 Position::reflection() const
@@ -103,7 +105,9 @@ Position::operator Vector() const
 
 ///** Vector**///
 
-
+Vector::Vector(int _a, int _b)
+  : Point(_a, _b)
+{}
 
 Vector
 Vector::reflection() const
@@ -291,6 +295,13 @@ Rectangle::area() const
 ///*** Rectangles  **///
 
 
+Rectangles::Rectangles(std::initializer_list<Rectangle> _colection)
+  : colection(_colection)
+{}
+
+Rectangles::Rectangles()
+{}
+
 unsigned int
 Rectangles::size() const
 {
@@ -351,13 +362,7 @@ Rectangles::operator=(const Rectangles &B)
   return *this;
 }
 
-Rectangles &
-Rectangles::operator=(Rectangles &&B)
-{
-  if (this != &B)
-    colection = move(B.colection);
-  return *this;
-}
+
 
 Rectangles
 Rectangles::operator+(const Vector &B) const
