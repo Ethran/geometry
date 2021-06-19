@@ -165,16 +165,6 @@ Vector::operator+(const Rectangle &B) const
 
 
 
-Rectangles
-Vector::operator+(const Rectangles &B) const
-{
-  Rectangles result = B;
-  result += *this;
-  return result;
-}
-
-
-
 Vector::operator Position() const
 {
   return Position(x(), y());
@@ -364,35 +354,38 @@ Rectangles::operator=(const Rectangles &B)
 
 
 
-Rectangles
-Rectangles::operator+(const Vector &B) const
-{
-  Rectangles result = *this;
-  result += B;
-  return result;
-}
-
-
-
 ///*** functions dopelniajace Rectangles ***///
 
 
 
 Rectangles
-operator+(const Rectangles &&a, const Vector &b)
+operator+(Rectangles &&a, const Vector &b)
 {
   Rectangles result(std::move(a));
   result += b;
   return result;
 }
 
-
 Rectangles
-operator+(const Vector &b, const Rectangles &&a)
+operator+(const Rectangles &a, const Vector &b)
 {
-  Rectangles result = std::move(a);
+  Rectangles result = a;
   result += b;
   return result;
+}
+
+
+Rectangles
+operator+(const Vector &b, Rectangles &&a)
+{
+  return a + b;
+}
+
+
+Rectangles
+operator+(const Vector &b, const Rectangles &a)
+{
+  return a + b;
 }
 
 

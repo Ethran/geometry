@@ -36,6 +36,9 @@ public:
   [[nodiscard]] const int &
   y() const;
 
+  virtual ~Point() = default; // pure  virtual function → abstract class
+
+
 protected:
   int xPos, yPos;
 };
@@ -103,8 +106,7 @@ public:
   Rectangle
   operator+(const Rectangle &B) const;
 
-  Rectangles
-  operator+(const Rectangles &B) const;
+
 
   explicit operator Position() const;
 
@@ -198,19 +200,32 @@ public:
   Rectangles &
   operator+=(const Vector &B);
 
-  Rectangles
-  operator+(const Vector &B) const;
+
 
 private:
   std::vector<Rectangle> colection;
 };
 
-
+// plus kopiujacy
 Rectangles
-operator+(const Rectangles &&a, const Vector &b);
+operator+(const Rectangles &a, const Vector &b);
 
+
+// plus przenoszacy
 Rectangles
-operator+(const Vector &b, const Rectangles &&a);
+operator+(Rectangles &&a, const Vector &b);
+
+// to samo tylko na odwrót
+
+
+// plus kopiujacy
+Rectangles
+operator+(const Vector &b, const Rectangles &a);
+
+
+// plus przenoszacy
+Rectangles
+operator+(const Vector &b, Rectangles &&a);
 
 
 
