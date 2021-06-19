@@ -378,7 +378,7 @@ operator+(const Rectangles &a, const Vector &b)
 Rectangles
 operator+(const Vector &b, Rectangles &&a)
 {
-  return a + b;
+  return std::move(a) + b;
 }
 
 
