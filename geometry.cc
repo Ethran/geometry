@@ -11,16 +11,6 @@ Point::Point(const int &_a, const int &_b)
 
 
 
-bool
-Point::operator==(const Point &B) const
-{
-  if (this->xPos == B.xPos && this->yPos == B.yPos)
-    return true;
-  return false;
-}
-
-
-
 Point &
 Point::operator+=(const Point &B)
 {
@@ -78,6 +68,18 @@ Position::operator=(const Position &B)
   static_cast<Point &>(*this) = B;
   return *this;
 }
+
+
+bool
+Position::operator==(const Position &B) const
+{
+  if (this->xPos == B.xPos && this->yPos == B.yPos)
+    return true;
+  return false;
+}
+
+
+
 Position &
 Position::operator+=(const Vector &B)
 {
@@ -122,6 +124,15 @@ Vector::operator=(const Vector &B)
 {
   static_cast<Point &>(*this) = B;
   return *this;
+}
+
+
+bool
+Vector::operator==(const Vector &B) const
+{
+  if (this->xPos == B.xPos && this->yPos == B.yPos)
+    return true;
+  return false;
 }
 
 

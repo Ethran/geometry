@@ -20,9 +20,9 @@ public:
 
   Point() = delete;
 
-
-  bool
-  operator==(const Point &B) const;
+  //
+  //  bool
+  //  operator==(const Point &B) const;
 
   Point &
   operator+=(const Point &B);
@@ -55,6 +55,10 @@ public:
 
   Position &
   operator=(const Position &B);
+
+  bool
+  operator==(const Position &B) const;
+
 
   Position &
   operator+=(const Vector &B);
@@ -93,6 +97,9 @@ public:
 
   Vector &
   operator=(const Vector &B);
+
+  bool
+  operator==(const Vector &B) const;
 
   Vector &
   operator+=(const Vector &B);
